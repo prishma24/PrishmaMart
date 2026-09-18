@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prishma Mart</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #fff8fb;
+        }
+
+        header {
+            background: #f3d6e4;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #6d3650;
+        }
+
+        .welcome {
+            color: #6d3650;
+            font-size: 16px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 45px 20px;
+        }
+
+        .hero h1 {
+            color: #6d3650;
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            color: #777;
+            font-size: 17px;
+        }
+
+        .products {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            padding: 20px 40px 50px;
+        }
+
+        .card {
+            background: white;
+            width: 230px;
+            padding: 18px;
+            border-radius: 18px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 180px;
+            background: #f8e8ef;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 65px;
+        }
+
+        .card h3 {
+            color: #5d3445;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #c45b86;
+            font-size: 19px;
+        }
+
+        .rating {
+            color: #e6a400;
+            margin: 8px;
+        }
+
+        .btn {
+            background: #c45b86;
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: #a8446d;
+        }
+        .search-box {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px;
+}
+
+.search-box input {
+    width: 300px;
+    padding: 12px 18px;
+    border: 1px solid #e0b8c9;
+    border-radius: 25px;
+    outline: none;
+    font-size: 15px;
+}
+.categories {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 15px 20px 25px;
+    flex-wrap: wrap;
+}
+
+.categories button {
+    background: white;
+    color: #6d3650;
+    border: 1px solid #e0b8c9;
+    padding: 9px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.categories button:hover {
+    background: #f3d6e4;
+}
+    </style>
+</head>
+
+<body>
+
+
+<header>
+    <div class="logo">♡ Prishma Mart</div>
+    <div class="welcome">Welcome to Prishma Mart 🛍️</div>
+</header>
+
+<div style="text-align:center; margin:20px;">
+    <button class="btn" onclick="viewCart()">🛒 View Cart</button>
+</div>
+<div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 Search products...">
+    <button class="btn" onclick="searchProducts()">Search</button>
+</div>
+<div class="categories">
+    <button onclick="filterProducts('all')">All</button>
+    <button onclick="filterProducts('bag')">Bags</button>
+    <button onclick="filterProducts('dress')">Dresses</button>
+    <button onclick="filterProducts('shoe')">Shoes</button>
+    <button onclick="filterProducts('watch')">Watches</button>
+</div>
+<section class="hero">
+    <h1>Shop Your Favorites ✨</h1>
+    <p>Everything you love, all in one place.</p>
+</section>
+
+<section class="products">
+
+    <div class="card">
+    <div class="product-img">👜</div>
+
+    <h3>Classic Handbag</h3>
+
+    <p>Elegant and stylish handbag for everyday use.</p>
+
+    <div class="rating">★★★★★</div>
+
+    <div class="price">₹899</div>
+
+    <p><b>Available:</b> In Stock</p>
+
+    <button class="btn" onclick="addToCart('Classic Handbag', 899)">
+    Add to Cart
+</button>
+</div>
+    <div class="card">
+    <div class="product-img">👗</div>
+    <h3>Elegant Dress</h3>
+    <p>Beautiful and comfortable dress for special occasions.</p>
+    <div class="rating">★★★★☆</div>
+    <div class="price">₹1,299</div>
+    <p><b>Available:</b> In Stock</p>
+    <button class="btn" onclick="addToCart('Elegant Dress', 1299)">
+    Add to Cart
+</button>
+</div>
+
+    <div class="card">
+    <div class="product-img">👟</div>
+    <h3>Casual Sneakers</h3>
+    <p>Comfortable sneakers perfect for everyday wear.</p>
+    <div class="rating">★★★★★</div>
+    <div class="price">₹1,599</div>
+    <p><b>Available:</b> In Stock</p>
+    <button class="btn" onclick="addToCart('Casual Sneakers', 1599)">
+    Add to Cart
+</button>
+</div>
+
+    <div class="card">
+    <div class="product-img">⌚</div>
+    <h3>Classic Watch</h3>
+    <p>Simple and elegant watch for a stylish everyday look.</p>
+    <div class="rating">★★★★☆</div>
+    <div class="price">₹999</div>
+    <p><b>Available:</b> In Stock</p>
+    <button class="btn" onclick="addToCart('Classic Watch', 999)">
+    Add to Cart
+</button>
+</div>
+
+</section>
+
+<script>
+    let cart = [];
+
+    function addToCart(productName, price) {
+    cart.push({
+        name: productName,
+        price: price
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert(productName + " added to cart! 🛒");
+}
+
+    function viewCart() {
+    window.location.href = "cart.html";
+}
+    function searchProducts() {
+    let searchText = document.getElementById("searchInput").value.toLowerCase().trim();
+    let products = document.querySelectorAll(".card");
+
+    products.forEach(function(product) {
+        let productText = product.innerText.toLowerCase();
+
+        if (searchText === "" || productText.includes(searchText)) {
+            product.style.display = "";
+        } else {
+            product.style.display = "none";
+        }
+    });
+}
+function filterProducts(category) {
+    let products = document.querySelectorAll(".card");
+
+    products.forEach(function(product) {
+        let productText = product.innerText.toLowerCase();
+
+        if (
+    category === "all" ||
+    productText.includes(category) ||
+    (category === "shoe" && productText.includes("sneaker"))
+) {
+            product.style.display = "";
+        } else {
+            product.style.display = "none";
+        }
+    });
+}
+</script>
+
+</body>
+</html>

@@ -172,7 +172,7 @@ a,span{
 
 <div class="box">
 
-<!-- LEFT -->
+<!-- LEFT SIDE -->
 <div class="left">
 
     <h1>🛍️ Prishma Mart</h1>
@@ -193,7 +193,7 @@ a,span{
 </div>
 
 
-<!-- RIGHT -->
+<!-- RIGHT SIDE -->
 <div class="right">
 
 <!-- LOGIN -->
@@ -232,7 +232,7 @@ a,span{
 
         </div>
 
-        <button class="btn">
+        <button class="btn" type="submit">
             Login
         </button>
 
@@ -262,12 +262,14 @@ a,span{
     <form onsubmit="signupUser(event)">
 
         <label>Username</label>
-        <input type="text"
+        <input id="signupUsername"
+               type="text"
                placeholder="Choose username"
                required>
 
         <label>Email</label>
-        <input type="email"
+        <input id="signupEmail"
+               type="email"
                placeholder="Enter email"
                required>
 
@@ -283,7 +285,7 @@ a,span{
                placeholder="Confirm password"
                required>
 
-        <button class="btn">
+        <button class="btn" type="submit">
             Create Account
         </button>
 
@@ -312,17 +314,25 @@ a,span{
 
     <form onsubmit="resetPass(event)">
 
+        <label>Username</label>
+        <input id="resetUsername"
+               type="text"
+               placeholder="Enter your username"
+               required>
+
         <label>Email</label>
-        <input type="email"
+        <input id="resetEmail"
+               type="email"
                placeholder="Enter your email"
                required>
 
         <label>New Password</label>
-        <input type="password"
+        <input id="newPassword"
+               type="password"
                placeholder="New password"
                required>
 
-        <button class="btn">
+        <button class="btn" type="submit">
             Reset Password
         </button>
 
@@ -343,53 +353,212 @@ a,span{
 
 <script>
 
-function show(id){
-    document.querySelectorAll(".form")
-    .forEach(x=>x.classList.remove("active"));
+/* =========================
+   SWITCH BETWEEN FORMS
+========================= */
 
-    document.getElementById(id)
-    .classList.add("active");
+function show(formName) {
+
+    document.getElementById("login").classList.remove("active");
+    document.getElementById("signup").classList.remove("active");
+    document.getElementById("forgot").classList.remove("active");
+
+    document.getElementById(formName).classList.add("active");
 }
 
-function loginUser(e){
+
+/* =========================
+   LOGIN
+========================= */
+
+function loginUser(e) {
 
     e.preventDefault();
 
-    let u=document.getElementById("user").value;
-    let p=document.getElementById("pass").value;
-    let m=document.getElementById("loginMsg");
+    let username = document.getElementById("user").value;
+    let password = document.getElementById("pass").value;
 
-    if(u=="prishma" && p=="12345"){
-        m.style.color="green";
-        m.innerHTML="✓ Login successful!";
-    }
-    else{
-        m.style.color="red";
-        m.innerHTML="✕ Invalid username or password";
-    }
+    fetch("http://localhost:8080/api/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username,
+            password: password
+        })
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        if (data.message === "Login successful") {
+    window.location.href = "home.html";
+
+
+        } else {
+
+            alert(data.message);
+
+        }
+
+    })
+
+    .catch(error => {
+
+        alert("Backend connection failed");
+        console.error(error);
+
+    });
 }
 
-function signupUser(e){
+
+/* =========================
+   SIGN UP
+========================= */
+
+function signupUser(e) {
 
     e.preventDefault();
 
-    let m=document.getElementById("signupMsg");
+    let username =
+        document.getElementById("signupUsername").value;
 
-    if(spass.value!=cpass.value){
-        m.style.color="red";
-        m.innerHTML="✕ Passwords do not match";
+    let email =
+        document.getElementById("signupEmail").value;
+
+    let password =
+        document.getElementById("spass").value;
+
+    let confirmPassword =
+        document.getElementById("cpass").value;
+
+
+    /* Check passwords */
+
+    if (password !== confirmPassword) {
+
+        alert("Passwords do not match!");
+        return;
+
     }
-    else{
-        m.style.color="green";
-        m.innerHTML="✓ Account created successfully!";
-    }
+
+
+    fetch("http://localhost:8080/api/register", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+            username: username,
+            email: email,
+            password: password
+
+        })
+
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        if (data.message === "Registration successful") {
+
+            alert("Account created successfully!");
+
+            /* Go back to login */
+
+            show("login");
+
+            /* Clear signup fields */
+
+            document.getElementById("signupUsername").value = "";
+            document.getElementById("signupEmail").value = "";
+            document.getElementById("spass").value = "";
+            document.getElementById("cpass").value = "";
+
+        } else {
+
+            alert(data.message);
+
+        }
+
+    })
+
+    .catch(error => {
+
+        alert("Backend connection failed");
+        console.error(error);
+
+    });
 }
 
-function resetPass(e){
+
+/* =========================
+   FORGOT PASSWORD
+========================= */
+
+function resetPass(e) {
 
     e.preventDefault();
 
-    alert("Password reset successfully!");
+    let username =
+        document.getElementById("resetUsername").value;
+
+    let email =
+        document.getElementById("resetEmail").value;
+
+    let newPassword =
+        document.getElementById("newPassword").value;
+
+
+    fetch("http://localhost:8080/api/forgot-password", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+            username: username,
+            email: email,
+            newPassword: newPassword
+
+        })
+
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        if (data.message === "Password reset successful") {
+
+            alert("Password reset successful!");
+
+            show("login");
+
+        } else {
+
+            alert(data.message);
+
+        }
+
+    })
+
+    .catch(error => {
+
+        alert("Backend connection failed");
+        console.error(error);
+
+    });
 }
 
 </script>
