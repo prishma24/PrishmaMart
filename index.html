@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -208,16 +209,22 @@ a,span{
     <form onsubmit="loginUser(event)">
 
         <label>Username</label>
-        <input id="user"
-               type="text"
-               placeholder="Enter username"
-               required>
+
+        <input
+            id="user"
+            type="text"
+            placeholder="Enter username"
+            required
+        >
 
         <label>Password</label>
-        <input id="pass"
-               type="password"
-               placeholder="Enter password"
-               required>
+
+        <input
+            id="pass"
+            type="password"
+            placeholder="Enter password"
+            required
+        >
 
         <div class="options">
 
@@ -262,28 +269,40 @@ a,span{
     <form onsubmit="signupUser(event)">
 
         <label>Username</label>
-        <input id="signupUsername"
-               type="text"
-               placeholder="Choose username"
-               required>
+
+        <input
+            id="signupUsername"
+            type="text"
+            placeholder="Choose username"
+            required
+        >
 
         <label>Email</label>
-        <input id="signupEmail"
-               type="email"
-               placeholder="Enter email"
-               required>
+
+        <input
+            id="signupEmail"
+            type="email"
+            placeholder="Enter email"
+            required
+        >
 
         <label>Password</label>
-        <input id="spass"
-               type="password"
-               placeholder="Create password"
-               required>
+
+        <input
+            id="spass"
+            type="password"
+            placeholder="Create password"
+            required
+        >
 
         <label>Confirm Password</label>
-        <input id="cpass"
-               type="password"
-               placeholder="Confirm password"
-               required>
+
+        <input
+            id="cpass"
+            type="password"
+            placeholder="Confirm password"
+            required
+        >
 
         <button class="btn" type="submit">
             Create Account
@@ -315,22 +334,31 @@ a,span{
     <form onsubmit="resetPass(event)">
 
         <label>Username</label>
-        <input id="resetUsername"
-               type="text"
-               placeholder="Enter your username"
-               required>
+
+        <input
+            id="resetUsername"
+            type="text"
+            placeholder="Enter your username"
+            required
+        >
 
         <label>Email</label>
-        <input id="resetEmail"
-               type="email"
-               placeholder="Enter your email"
-               required>
+
+        <input
+            id="resetEmail"
+            type="email"
+            placeholder="Enter your email"
+            required
+        >
 
         <label>New Password</label>
-        <input id="newPassword"
-               type="password"
-               placeholder="New password"
-               required>
+
+        <input
+            id="newPassword"
+            type="password"
+            placeholder="New password"
+            required
+        >
 
         <button class="btn" type="submit">
             Reset Password
@@ -375,18 +403,28 @@ function loginUser(e) {
 
     e.preventDefault();
 
-    let username = document.getElementById("user").value;
-    let password = document.getElementById("pass").value;
+    let username =
+        document.getElementById("user").value;
+
+    let password =
+        document.getElementById("pass").value;
+
 
     fetch("http://localhost:8080/api/login", {
+
         method: "POST",
+
         headers: {
             "Content-Type": "application/json"
         },
+
         body: JSON.stringify({
+
             username: username,
             password: password
+
         })
+
     })
 
     .then(response => response.json())
@@ -394,8 +432,13 @@ function loginUser(e) {
     .then(data => {
 
         if (data.message === "Login successful") {
-    window.location.href = "home.html";
 
+            /*
+             * Login successful.
+             * Now user can choose Buyer or Seller.
+             */
+
+            window.location.href = "role.html";
 
         } else {
 
@@ -408,6 +451,7 @@ function loginUser(e) {
     .catch(error => {
 
         alert("Backend connection failed");
+
         console.error(error);
 
     });
@@ -440,6 +484,7 @@ function signupUser(e) {
     if (password !== confirmPassword) {
 
         alert("Passwords do not match!");
+
         return;
 
     }
@@ -475,11 +520,15 @@ function signupUser(e) {
 
             show("login");
 
+
             /* Clear signup fields */
 
             document.getElementById("signupUsername").value = "";
+
             document.getElementById("signupEmail").value = "";
+
             document.getElementById("spass").value = "";
+
             document.getElementById("cpass").value = "";
 
         } else {
@@ -493,6 +542,7 @@ function signupUser(e) {
     .catch(error => {
 
         alert("Backend connection failed");
+
         console.error(error);
 
     });
@@ -556,6 +606,7 @@ function resetPass(e) {
     .catch(error => {
 
         alert("Backend connection failed");
+
         console.error(error);
 
     });
@@ -565,3 +616,4 @@ function resetPass(e) {
 
 </body>
 </html>
+```

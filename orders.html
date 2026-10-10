@@ -1,0 +1,262 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prishma Mart - My Orders</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #fff7fa;
+            color: #5d3445;
+        }
+
+        header {
+            background: #c45b86;
+            color: white;
+            padding: 24px 15px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        header p {
+            margin-bottom: 0;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 22px 10px;
+        }
+
+        .btn {
+            background: white;
+            color: #c45b86;
+            border: 1px solid #c45b86;
+            padding: 10px 20px;
+            border-radius: 22px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn:hover {
+            background: #c45b86;
+            color: white;
+        }
+
+        .orders-container {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .order-card {
+            background: white;
+            margin: 20px 0;
+            padding: 22px;
+            border-radius: 18px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #c45b86;
+        }
+
+        .order-card h3 {
+            color: #c45b86;
+            margin-top: 0;
+            margin-bottom: 18px;
+        }
+
+        .order-card p {
+            margin: 10px 0;
+            overflow-wrap: anywhere;
+        }
+
+        .total {
+            font-size: 21px;
+            font-weight: bold;
+            color: #c45b86;
+            margin-top: 18px !important;
+        }
+
+        .status {
+            display: inline-block;
+            background: #f8e8ef;
+            color: #a33f6a;
+            padding: 8px 15px;
+            border-radius: 18px;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .empty,
+        .error,
+        .loading {
+            text-align: center;
+            margin-top: 55px;
+            padding: 25px;
+            color: #777;
+        }
+
+        .error {
+            color: #b83250;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #8c6676;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>📦 My Orders</h1>
+    <p>View your placed orders at Prishma Mart</p>
+</header>
+
+<div class="top-bar">
+    <button class="btn" onclick="goHome()">
+        ← Back to Shopping
+    </button>
+
+    <button class="btn" onclick="loadOrders()">
+        ↻ Refresh Orders
+    </button>
+</div>
+
+<div class="orders-container" id="ordersContainer">
+    <div class="loading">
+        <h2>Loading Orders...</h2>
+        <p>Please wait.</p>
+    </div>
+</div>
+
+<footer>
+    © 2026 Prishma Mart. Happy Shopping! 💗
+</footer>
+
+<script>
+    const API_URL = "http://localhost:8080/orders";
+
+    function goHome() {
+        // Works with either home.html or Home.html.
+        // Use the filename that actually exists in your project.
+        window.location.href = "home.html";
+    }
+
+    async function loadOrders() {
+        const container = document.getElementById("ordersContainer");
+
+        container.innerHTML = `
+            <div class="loading">
+                <h2>Loading Orders...</h2>
+                <p>Please wait.</p>
+            </div>
+        `;
+
+        try {
+            const response = await fetch(API_URL);
+
+            if (!response.ok) {
+                throw new Error("Server returned status " + response.status);
+            }
+
+            const orders = await response.json();
+
+            container.innerHTML = "";
+
+            if (!Array.isArray(orders) || orders.length === 0) {
+                container.innerHTML = `
+                    <div class="empty">
+                        <h2>📦 No Orders Yet</h2>
+                        <p>Your placed orders will appear here.</p>
+                        <button class="btn" onclick="goHome()">
+                            Start Shopping
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Show the newest order first.
+            orders.sort((a, b) => Number(b.id) - Number(a.id));
+
+            orders.forEach(function(order) {
+                const card = document.createElement("div");
+                card.className = "order-card";
+
+                const heading = document.createElement("h3");
+                heading.textContent = "Order #" + order.id;
+
+                const name = document.createElement("p");
+                name.innerHTML = "<strong>Name:</strong> ";
+                name.appendChild(document.createTextNode(order.name || "Not available"));
+
+                const email = document.createElement("p");
+                email.innerHTML = "<strong>Email:</strong> ";
+                email.appendChild(document.createTextNode(order.email || "Not available"));
+
+                const phone = document.createElement("p");
+                phone.innerHTML = "<strong>Phone:</strong> ";
+                phone.appendChild(document.createTextNode(order.phone || "Not available"));
+
+                const address = document.createElement("p");
+                address.innerHTML = "<strong>Address:</strong> ";
+                address.appendChild(document.createTextNode(order.address || "Not available"));
+
+                const total = document.createElement("p");
+                total.className = "total";
+                total.textContent = "Total: ₹" + Number(order.total || 0).toFixed(2);
+
+                const status = document.createElement("span");
+                status.className = "status";
+                status.textContent = "✅ Order Placed";
+
+                card.appendChild(heading);
+                card.appendChild(name);
+                card.appendChild(email);
+                card.appendChild(phone);
+                card.appendChild(address);
+                card.appendChild(total);
+                card.appendChild(status);
+
+                container.appendChild(card);
+            });
+
+        } catch (error) {
+            console.error("Error loading orders:", error);
+
+            container.innerHTML = `
+                <div class="error">
+                    <h2>⚠️ Unable to Load Orders</h2>
+                    <p>Please check that your Java backend is running.</p>
+                    <p>Backend URL: http://localhost:8080/orders</p>
+                    <button class="btn" onclick="loadOrders()">
+                        Try Again
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+    loadOrders();
+</script>
+
+</body>
+</html>
+```

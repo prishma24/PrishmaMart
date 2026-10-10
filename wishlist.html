@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prishma Mart - Wishlist</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #fff7fa;
+            color: #5d3445;
+        }
+
+        header {
+            background: #c45b86;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .top-bar {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .top-btn {
+            background: white;
+            color: #c45b86;
+            border: 1px solid #c45b86;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+
+        .top-btn:hover {
+            background: #f8e8ef;
+        }
+
+        .wishlist-info {
+            text-align: center;
+            margin: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 20px 30px 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            width: 230px;
+            padding: 20px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .heart {
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+        .card h3 {
+            color: #5d3445;
+            margin: 10px 0;
+        }
+
+        .price {
+            color: #c45b86;
+            font-weight: bold;
+            font-size: 19px;
+            margin: 10px;
+        }
+
+        .cart-btn {
+            background: #c45b86;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .cart-btn:hover {
+            background: #a8446d;
+        }
+
+        .remove-btn {
+            background: white;
+            color: #c45b86;
+            border: 1px solid #c45b86;
+            padding: 10px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .remove-btn:hover {
+            background: #f8e8ef;
+        }
+
+        .empty {
+            text-align: center;
+            width: 100%;
+            padding: 60px 20px;
+            color: #777;
+        }
+
+        .empty h2 {
+            color: #c45b86;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            background: #f8e8ef;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>❤️ My Wishlist</h1>
+</header>
+
+
+<div class="top-bar">
+
+    <button class="top-btn" onclick="window.location.href='Home.html'">
+        ← Continue Shopping
+    </button>
+
+    <button class="top-btn" onclick="window.location.href='cart.html'">
+        🛒 View Cart
+    </button>
+
+</div>
+
+
+<div class="wishlist-info" id="wishlistCount"></div>
+
+
+<div class="container" id="wishlistContainer"></div>
+
+
+<footer>
+    <p>© 2026 Prishma Mart | Happy Shopping 🛍️</p>
+</footer>
+
+
+<script>
+
+function displayWishlist() {
+
+    let wishlist =
+        JSON.parse(localStorage.getItem("wishlist")) || [];
+
+    let container =
+        document.getElementById("wishlistContainer");
+
+    let count =
+        document.getElementById("wishlistCount");
+
+    container.innerHTML = "";
+
+    count.innerText =
+        wishlist.length + " item(s) in your wishlist ❤️";
+
+
+    if (wishlist.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+
+                <div style="font-size:60px;">
+                    🤍
+                </div>
+
+                <h2>Your Wishlist is Empty</h2>
+
+                <p>Add your favourite products here!</p>
+
+                <button class="cart-btn"
+                    onclick="window.location.href='Home.html'">
+                    🛍️ Start Shopping
+                </button>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    wishlist.forEach(function(item, index) {
+
+        container.innerHTML += `
+
+            <div class="card">
+
+                <div class="heart">
+                    ❤️
+                </div>
+
+                <h3>
+                    ${item.name}
+                </h3>
+
+                <p class="price">
+                    ₹${item.price}
+                </p>
+
+                <button class="cart-btn"
+                    onclick="addToCart('${item.name}', ${item.price})">
+                    🛒 Add to Cart
+                </button>
+
+                <br>
+
+                <button class="remove-btn"
+                    onclick="removeWishlist(${index})">
+                    Remove ❤️
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+function addToCart(productName, productPrice) {
+
+    let cart =
+        JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.push({
+        name: productName,
+        price: productPrice
+    });
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    alert(productName + " added to cart! 🛒");
+}
+
+
+function removeWishlist(index) {
+
+    let wishlist =
+        JSON.parse(localStorage.getItem("wishlist")) || [];
+
+    wishlist.splice(index, 1);
+
+    localStorage.setItem(
+        "wishlist",
+        JSON.stringify(wishlist)
+    );
+
+    displayWishlist();
+
+}
+
+
+displayWishlist();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Choose Role - Prishma Mart</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial;
+            margin: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f1e5ea;
+        }
+
+        .container {
+            width: 800px;
+            background: white;
+            padding: 45px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 15px 40px #c7b3bb;
+        }
+
+        h1 {
+            color: #76566f;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #95888f;
+            margin-bottom: 35px;
+        }
+
+        .roles {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .role {
+            width: 300px;
+            padding: 35px 25px;
+            border-radius: 20px;
+            background: #f8eef3;
+            border: 2px solid #ead7e1;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .role:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px #d6c0cc;
+        }
+
+        .icon {
+            font-size: 65px;
+            margin-bottom: 15px;
+        }
+
+        .role h2 {
+            color: #4f414c;
+            margin-bottom: 10px;
+        }
+
+        .role p {
+            color: #80747b;
+            line-height: 1.5;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg,#a86f91,#8d70ad);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @media(max-width:700px) {
+
+            .container {
+                width: 90%;
+            }
+
+            .roles {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .role {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Welcome to Prishma Mart 🛍️</h1>
+
+        <p class="subtitle">
+            How would you like to continue?
+        </p>
+
+
+        <div class="roles">
+
+            <!-- BUYER -->
+
+            <div class="role" onclick="goToBuyer()">
+
+                <div class="icon">🛒</div>
+
+                <h2>Buyer</h2>
+
+                <p>
+                    Browse products, add items to cart
+                    and place orders.
+                </p>
+
+                <button>
+                    Continue as Buyer
+                </button>
+
+            </div>
+
+
+            <!-- SELLER -->
+
+            <div class="role" onclick="goToSeller()">
+
+                <div class="icon">🏪</div>
+
+                <h2>Seller</h2>
+
+                <p>
+                    Add products, manage stock
+                    and manage your products.
+                </p>
+
+                <button>
+                    Continue as Seller
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function goToBuyer() {
+
+            window.location.href = "home.html";
+
+        }
+
+
+        function goToSeller() {
+
+            window.location.href = "seller.html";
+
+        }
+
+    </script>
+
+</body>
+</html>
+```

@@ -1,0 +1,282 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Seller Dashboard - Prishma Mart</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial;
+            margin: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f1e5ea;
+            padding: 30px;
+        }
+
+        .header {
+            background: white;
+            padding: 25px 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px #c7b3bb;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #76566f;
+        }
+
+        .header p {
+            color: #95888f;
+            margin-top: 8px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px #c7b3bb;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .card h2 {
+            color: #4f414c;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #5d5359;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 18px;
+            border: 1px solid #dfcfd7;
+            border-radius: 10px;
+            outline: none;
+            background: #fffafb;
+        }
+
+        textarea {
+            height: 90px;
+            resize: none;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #a86f91;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #a86f91, #8d70ad);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #9a5f83;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>🏪 Seller Dashboard</h1>
+
+        <p>
+            Welcome Seller! Add and manage your products here.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>➕ Add New Product</h2>
+
+        <form id="productForm">
+
+            <label>Product Name</label>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter product name"
+                required
+            >
+
+
+            <label>Description</label>
+
+            <textarea
+                id="description"
+                placeholder="Enter product description"
+                required
+            ></textarea>
+
+
+            <label>Price</label>
+
+            <input
+                type="number"
+                id="price"
+                placeholder="Enter price"
+                required
+            >
+
+
+            <label>Stock</label>
+
+            <input
+                type="number"
+                id="stock"
+                placeholder="Enter stock quantity"
+                required
+            >
+
+
+            <label>Category</label>
+
+            <input
+                type="text"
+                id="category"
+                placeholder="Enter category"
+                required
+            >
+
+
+            <button type="submit">
+                Add Product
+            </button>
+
+        </form>
+
+        <p id="message"></p>
+
+        <span class="back" onclick="goBack()">
+            ← Back to Role Selection
+        </span>
+
+    </div>
+
+</div>
+
+
+<script>
+
+document.getElementById("productForm").addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+
+    const product = {
+
+        name: document.getElementById("name").value,
+
+        description: document.getElementById("description").value,
+
+        price: Number(document.getElementById("price").value),
+
+        stock: Number(document.getElementById("stock").value),
+
+        category: document.getElementById("category").value
+
+    };
+
+
+    try {
+
+        const response = await fetch(
+            "http://localhost:8080/products",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(product)
+            }
+        );
+
+
+        if (response.ok) {
+
+            document.getElementById("message").innerText =
+                "✅ Product added successfully!";
+
+            document.getElementById("productForm").reset();
+
+        } else {
+
+            document.getElementById("message").innerText =
+                "❌ Failed to add product.";
+
+        }
+
+    } catch (error) {
+
+        document.getElementById("message").innerText =
+            "❌ Backend connection failed.";
+
+        console.error(error);
+
+    }
+
+});
+
+
+function goBack() {
+
+    window.location.href = "role.html";
+
+}
+
+</script>
+
+</body>
+</html>
+```

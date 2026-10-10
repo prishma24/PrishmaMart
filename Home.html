@@ -1,6 +1,9 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prishma Mart</title>
 
     <style>
@@ -16,6 +19,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .logo {
@@ -31,7 +36,7 @@
 
         .hero {
             text-align: center;
-            padding: 45px 20px;
+            padding: 35px 20px;
         }
 
         .hero h1 {
@@ -50,7 +55,7 @@
             justify-content: center;
             gap: 25px;
             flex-wrap: wrap;
-            padding: 20px 40px 50px;
+            padding: 20px 30px 50px;
         }
 
         .card {
@@ -60,6 +65,7 @@
             border-radius: 18px;
             box-shadow: 0 5px 18px rgba(0,0,0,0.08);
             text-align: center;
+            box-sizing: border-box;
         }
 
         .product-img {
@@ -67,10 +73,17 @@
             height: 180px;
             background: #f8e8ef;
             border-radius: 15px;
+            overflow: hidden;
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-size: 65px;
+            justify-content: center;
+            font-size: 60px;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .card h3 {
@@ -78,10 +91,16 @@
             margin-bottom: 8px;
         }
 
+        .card p {
+            color: #666;
+            font-size: 14px;
+        }
+
         .price {
             font-weight: bold;
             color: #c45b86;
             font-size: 19px;
+            margin: 10px 0;
         }
 
         .rating {
@@ -93,56 +112,109 @@
             background: #c45b86;
             color: white;
             border: none;
-            padding: 11px 20px;
+            padding: 11px 16px;
             border-radius: 20px;
             cursor: pointer;
             font-size: 14px;
+            margin: 4px;
         }
 
         .btn:hover {
             background: #a8446d;
         }
+
+        .wishlist-btn {
+            background: white;
+            color: #c45b86;
+            border: 1px solid #e0b8c9;
+            padding: 9px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 4px;
+        }
+
+        .wishlist-btn:hover {
+            background: #f8e8ef;
+        }
+
         .search-box {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 20px;
-}
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px;
+            flex-wrap: wrap;
+        }
 
-.search-box input {
-    width: 300px;
-    padding: 12px 18px;
-    border: 1px solid #e0b8c9;
-    border-radius: 25px;
-    outline: none;
-    font-size: 15px;
-}
-.categories {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin: 15px 20px 25px;
-    flex-wrap: wrap;
-}
+        .search-box input {
+            width: 300px;
+            max-width: 75%;
+            padding: 12px 18px;
+            border: 1px solid #e0b8c9;
+            border-radius: 25px;
+            outline: none;
+            font-size: 15px;
+        }
 
-.categories button {
-    background: white;
-    color: #6d3650;
-    border: 1px solid #e0b8c9;
-    padding: 9px 18px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-}
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 15px 20px 25px;
+            flex-wrap: wrap;
+        }
 
-.categories button:hover {
-    background: #f3d6e4;
-}
+        .categories button {
+            background: white;
+            color: #6d3650;
+            border: 1px solid #e0b8c9;
+            padding: 9px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .categories button:hover {
+            background: #f3d6e4;
+        }
+
+        #message {
+            text-align: center;
+            color: #6d3650;
+            padding: 10px;
+        }
+
+        footer {
+            background: #f3d6e4;
+            color: #6d3650;
+            text-align: center;
+            padding: 18px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 18px;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .products {
+                padding: 15px;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 320px;
+            }
+        }
     </style>
 </head>
 
 <body>
-
 
 <header>
     <div class="logo">♡ Prishma Mart</div>
@@ -151,128 +223,478 @@
 
 <div style="text-align:center; margin:20px;">
     <button class="btn" onclick="viewCart()">🛒 View Cart</button>
+    <button class="btn" onclick="window.location.href='wishlist.html'">
+        ❤️ Wishlist
+    </button>
+    <button class="btn" onclick="window.location.href='orders.html'">
+        📦 My Orders
+    </button>
 </div>
+
 <div class="search-box">
-    <input type="text" id="searchInput" placeholder="🔍 Search products...">
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="🔍 Search products..."
+        oninput="searchProducts()"
+    >
     <button class="btn" onclick="searchProducts()">Search</button>
 </div>
+
 <div class="categories">
     <button onclick="filterProducts('all')">All</button>
     <button onclick="filterProducts('bag')">Bags</button>
     <button onclick="filterProducts('dress')">Dresses</button>
     <button onclick="filterProducts('shoe')">Shoes</button>
     <button onclick="filterProducts('watch')">Watches</button>
+    <button onclick="filterProducts('clothing')">Clothing</button>
+    <button onclick="filterProducts('accessories')">Accessories</button>
 </div>
+
 <section class="hero">
     <h1>Shop Your Favorites ✨</h1>
     <p>Everything you love, all in one place.</p>
 </section>
 
-<section class="products">
+<p id="message">Loading products...</p>
 
-    <div class="card">
-    <div class="product-img">👜</div>
+<section class="products" id="productsContainer"></section>
 
-    <h3>Classic Handbag</h3>
-
-    <p>Elegant and stylish handbag for everyday use.</p>
-
-    <div class="rating">★★★★★</div>
-
-    <div class="price">₹899</div>
-
-    <p><b>Available:</b> In Stock</p>
-
-    <button class="btn" onclick="addToCart('Classic Handbag', 899)">
-    Add to Cart
-</button>
-</div>
-    <div class="card">
-    <div class="product-img">👗</div>
-    <h3>Elegant Dress</h3>
-    <p>Beautiful and comfortable dress for special occasions.</p>
-    <div class="rating">★★★★☆</div>
-    <div class="price">₹1,299</div>
-    <p><b>Available:</b> In Stock</p>
-    <button class="btn" onclick="addToCart('Elegant Dress', 1299)">
-    Add to Cart
-</button>
-</div>
-
-    <div class="card">
-    <div class="product-img">👟</div>
-    <h3>Casual Sneakers</h3>
-    <p>Comfortable sneakers perfect for everyday wear.</p>
-    <div class="rating">★★★★★</div>
-    <div class="price">₹1,599</div>
-    <p><b>Available:</b> In Stock</p>
-    <button class="btn" onclick="addToCart('Casual Sneakers', 1599)">
-    Add to Cart
-</button>
-</div>
-
-    <div class="card">
-    <div class="product-img">⌚</div>
-    <h3>Classic Watch</h3>
-    <p>Simple and elegant watch for a stylish everyday look.</p>
-    <div class="rating">★★★★☆</div>
-    <div class="price">₹999</div>
-    <p><b>Available:</b> In Stock</p>
-    <button class="btn" onclick="addToCart('Classic Watch', 999)">
-    Add to Cart
-</button>
-</div>
-
-</section>
+<footer>
+    <p>© 2026 Prishma Mart | Happy Shopping! ♡</p>
+</footer>
 
 <script>
-    let cart = [];
+    const localProducts = [
+        {
+            name: "Classic Handbag",
+            description: "Elegant handbag perfect for everyday use.",
+            price: 899,
+            category: "bag",
+            image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Elegant Dress",
+            description: "Beautiful dress for parties and special occasions.",
+            price: 1299,
+            category: "dress",
+            image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Casual Sneakers",
+            description: "Comfortable sneakers for everyday activities.",
+            price: 1599,
+            category: "shoe",
+            image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Classic Watch",
+            description: "Simple and stylish watch for everyday wear.",
+            price: 999,
+            category: "watch",
+            image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Mini Shoulder Bag",
+            description: "Stylish and compact bag for everyday outings.",
+            price: 799,
+            category: "bag",
+            image: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Premium Tote Bag",
+            description: "Spacious and elegant tote bag for daily use.",
+            price: 1099,
+            category: "bag",
+            image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Casual Backpack",
+            description: "Comfortable backpack for college and travel.",
+            price: 999,
+            category: "bag",
+            image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Casual Top",
+            description: "Comfortable and trendy top for everyday wear.",
+            price: 699,
+            category: "clothing",
+            image: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Floral Summer Dress",
+            description: "Beautiful floral dress with a fresh summer look.",
+            price: 1199,
+            category: "dress",
+            image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Wide-Leg Jeans",
+            description: "Trendy wide-leg jeans with a comfortable fit.",
+            price: 1199,
+            category: "clothing",
+            image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Cotton Kurti",
+            description: "Soft cotton kurti with a simple elegant design.",
+            price: 899,
+            category: "clothing",
+            image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Oversized T-Shirt",
+            description: "Relaxed oversized t-shirt for a casual style.",
+            price: 599,
+            category: "clothing",
+            image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Running Shoes",
+            description: "Lightweight running shoes for active lifestyles.",
+            price: 1899,
+            category: "shoe",
+            image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Classic Flats",
+            description: "Simple and comfortable flats for everyday wear.",
+            price: 749,
+            category: "shoe",
+            image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Trendy Sandals",
+            description: "Stylish sandals designed for comfortable walking.",
+            price: 699,
+            category: "shoe",
+            image: "https://images.unsplash.com/photo-1562273138-f46be4ebdf33?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Smart Watch",
+            description: "Modern smartwatch with a stylish everyday design.",
+            price: 1799,
+            category: "watch",
+            image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Minimalist Watch",
+            description: "Clean and elegant watch with a minimalist design.",
+            price: 1299,
+            category: "watch",
+            image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Stylish Sunglasses",
+            description: "Trendy sunglasses for a fashionable everyday look.",
+            price: 599,
+            category: "accessories",
+            image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Pearl Necklace",
+            description: "Elegant pearl necklace for special occasions.",
+            price: 499,
+            category: "accessories",
+            image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=500&q=80"
+        },
+        {
+            name: "Premium Wallet",
+            description: "Compact and stylish wallet for everyday essentials.",
+            price: 649,
+            category: "accessories",
+            image: "https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=500&q=80"
+        }
+    ];
+
+    let allProducts = [];
+    let activeCategory = "all";
+
+    function createProductCard(product) {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        if (product.id !== undefined && product.id !== null) {
+            card.dataset.backendProductId = product.id;
+        }
+
+        card.dataset.category = product.category || "general";
+
+        const imageBox = document.createElement("div");
+        imageBox.className = "product-img";
+
+        if (product.image) {
+            const image = document.createElement("img");
+            image.src = product.image;
+            image.alt = product.name || "Product";
+            image.loading = "lazy";
+            image.onerror = function() {
+                imageBox.textContent = "🛍️";
+            };
+            imageBox.appendChild(image);
+        } else {
+            imageBox.textContent = "🛍️";
+        }
+
+        const name = document.createElement("h3");
+        name.textContent = product.name || "Unnamed Product";
+
+        const description = document.createElement("p");
+        description.textContent =
+            product.description || "No description available";
+
+        const rating = document.createElement("div");
+        rating.className = "rating";
+        rating.textContent = "★★★★★";
+
+        const price = document.createElement("div");
+        price.className = "price";
+        price.textContent =
+            "₹" + Number(product.price || 0).toLocaleString("en-IN");
+
+        const stock = document.createElement("p");
+        stock.innerHTML = "<b>Available:</b> " +
+            (product.stock !== undefined
+                ? Number(product.stock)
+                : "In Stock");
+
+        const cartButton = document.createElement("button");
+        cartButton.className = "btn";
+        cartButton.textContent = "Add to Cart";
+        cartButton.addEventListener("click", function() {
+            addToCart(product.name, Number(product.price || 0));
+        });
+
+        const wishlistButton = document.createElement("button");
+        wishlistButton.className = "wishlist-btn";
+        wishlistButton.textContent = "♡ Wishlist";
+        wishlistButton.addEventListener("click", function() {
+            toggleWishlist(product.name, Number(product.price || 0));
+        });
+
+        card.append(
+            imageBox,
+            name,
+            description,
+            rating,
+            price,
+            stock,
+            cartButton,
+            document.createElement("br"),
+            wishlistButton
+        );
+    
+if (product.id !== undefined && product.id !== null) {
+    const deleteButton = document.createElement("button");
+
+    deleteButton.textContent = "Delete Product";
+    deleteButton.style.background = "#dc3545";
+    deleteButton.style.color = "white";
+    deleteButton.style.padding = "10px";
+    deleteButton.style.marginTop = "8px";
+    deleteButton.style.border = "none";
+    deleteButton.style.borderRadius = "6px";
+    deleteButton.style.cursor = "pointer";
+
+    deleteButton.addEventListener("click", async function () {
+        const confirmed = confirm(
+            "Are you sure you want to delete " + product.name + "?"
+        );
+
+        if (!confirmed) return;
+
+        try {
+            const response = await fetch(
+                "http://localhost:8080/products/" + product.id,
+                { method: "DELETE" }
+            );
+
+            if (!response.ok) {
+                throw new Error("Delete failed");
+            }
+
+            allProducts = allProducts.filter(function (item) {
+                return String(item.id) !== String(product.id);
+            });
+
+            displayProducts(allProducts);
+            alert("Product deleted successfully!");
+
+        } catch (error) {
+            console.error(error);
+            alert("Delete failed. Please check whether the backend is running.");
+        }
+    });
+
+    card.appendChild(deleteButton);
+}
+        return card;
+    }
+
+    function displayProducts(products) {
+        const container = document.getElementById("productsContainer");
+        container.innerHTML = "";
+
+        products.forEach(function(product) {
+            container.appendChild(createProductCard(product));
+        });
+
+        applyProductFilters();
+    }
+
+    async function loadProducts() {
+        const message = document.getElementById("message");
+
+        // Display the 20 built-in products first.
+        allProducts = [...localProducts];
+        displayProducts(allProducts);
+        message.textContent = "";
+
+        // Then load products added by the Seller from Spring Boot.
+        try {
+            const response = await fetch("http://localhost:8080/products");
+
+            if (!response.ok) {
+                throw new Error("Server returned status " + response.status);
+            }
+
+            const backendProducts = await response.json();
+
+            // Avoid duplicates if a product was already loaded.
+            const existingIds = new Set(
+                allProducts
+                    .filter(product => product.id !== undefined)
+                    .map(product => String(product.id))
+            );
+
+            backendProducts.forEach(function(product) {
+                if (product.id === undefined ||
+                    !existingIds.has(String(product.id))) {
+                    allProducts.push(product);
+
+                    if (product.id !== undefined) {
+                        existingIds.add(String(product.id));
+                    }
+                }
+            });
+
+            displayProducts(allProducts);
+            message.textContent = "";
+
+        } catch (error) {
+            console.error("Product loading error:", error);
+            message.textContent =
+                "Showing available products. Seller products need the backend running.";
+        }
+    }
 
     function addToCart(productName, price) {
-    cart.push({
-        name: productName,
-        price: price
-    });
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    localStorage.setItem("cart", JSON.stringify(cart));
+        cart.push({
+            name: productName,
+            price: price
+        });
 
-    alert(productName + " added to cart! 🛒");
-}
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        alert(productName + " added to cart! 🛒");
+    }
 
     function viewCart() {
-    window.location.href = "cart.html";
-}
+        window.location.href = "cart.html";
+    }
+
+    function toggleWishlist(name, price) {
+        let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+        const existing = wishlist.find(function(item) {
+            return item.name === name;
+        });
+
+        if (existing) {
+            wishlist = wishlist.filter(function(item) {
+                return item.name !== name;
+            });
+            alert("Removed from wishlist ❤️");
+        } else {
+            wishlist.push({
+                name: name,
+                price: price
+            });
+            alert("Added to wishlist ❤️");
+        }
+
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    }
+
     function searchProducts() {
-    let searchText = document.getElementById("searchInput").value.toLowerCase().trim();
-    let products = document.querySelectorAll(".card");
+        applyProductFilters();
+    }
 
-    products.forEach(function(product) {
-        let productText = product.innerText.toLowerCase();
+    function filterProducts(category) {
+        activeCategory = category;
+        applyProductFilters();
+    }
 
-        if (searchText === "" || productText.includes(searchText)) {
-            product.style.display = "";
-        } else {
-            product.style.display = "none";
-        }
-    });
-}
-function filterProducts(category) {
-    let products = document.querySelectorAll(".card");
+    function applyProductFilters() {
+        const searchText = document
+            .getElementById("searchInput")
+            .value.toLowerCase()
+            .trim();
 
-    products.forEach(function(product) {
-        let productText = product.innerText.toLowerCase();
+        const cards = document.querySelectorAll("#productsContainer .card");
 
-        if (
-    category === "all" ||
-    productText.includes(category) ||
-    (category === "shoe" && productText.includes("sneaker"))
-) {
-            product.style.display = "";
-        } else {
-            product.style.display = "none";
-        }
-    });
-}
+        cards.forEach(function(card) {
+            const text = card.innerText.toLowerCase();
+            const category = (card.dataset.category || "").toLowerCase();
+
+            const matchesSearch =
+                searchText === "" || text.includes(searchText);
+
+            let matchesCategory = activeCategory === "all";
+
+            if (!matchesCategory) {
+                if (activeCategory === "shoe") {
+                    matchesCategory =
+                        category.includes("shoe") ||
+                        text.includes("sneaker");
+                } else if (activeCategory === "bag") {
+                    matchesCategory =
+                        category.includes("bag") ||
+                        text.includes("bag") ||
+                        text.includes("backpack");
+                } else if (activeCategory === "dress") {
+                    matchesCategory =
+                        category.includes("dress") ||
+                        text.includes("dress");
+                } else if (activeCategory === "watch") {
+                    matchesCategory =
+                        category.includes("watch") ||
+                        text.includes("watch");
+                } else if (activeCategory === "clothing") {
+                    matchesCategory =
+                        category.includes("clothing") ||
+                        text.includes("jeans") ||
+                        text.includes("kurti") ||
+                        text.includes("t-shirt") ||
+                        text.includes("top");
+                } else if (activeCategory === "accessories") {
+                    matchesCategory =
+                        category.includes("accessories") ||
+                        text.includes("sunglasses") ||
+                        text.includes("necklace") ||
+                        text.includes("wallet");
+                }
+            }
+
+            card.style.display =
+                matchesSearch && matchesCategory ? "" : "none";
+        });
+    }
+
+    loadProducts();
 </script>
 
 </body>
